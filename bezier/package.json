@@ -1,0 +1,16 @@
+{
+  "name": "bezier",
+  "version": "0.0.0",
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc && vite build",
+    "serve": "vite preview"
+  },
+  "devDependencies": {
+    "typescript": "^4.3.2",
+    "vite": "^2.5.2"
+  },
+  "dependencies": {
+    "two.js": "^0.7.8"
+  }
+}
