@@ -23,15 +23,15 @@ export function getIndex(handles: Point[], point: Point) {
     return index
 }
 
-export function getRandomInt(min: number, max: number) {
+export function randi(min: number, max: number) {
     min = Math.ceil(min);
     max = Math.floor(max);
     return Math.floor(Math.random() * (max - min) + min); //The maximum is exclusive and the minimum is inclusive
 }
 
 
-export function makeCurve(anchors: any[]) {
-
+export function makeCurve(anchors: any[], resolution: number) {
+    // console.log('updateing the curve')
 
     let pointArrays = anchors.map(point => {
         return [point.x, point.y]
@@ -40,7 +40,6 @@ export function makeCurve(anchors: any[]) {
 
 
     let curve = []
-    let resolution = 40
     for (var t = 0; t <= resolution; t++) {
         let point = b(t / resolution)
         let anchor = new Two.Anchor(point[0], point[1])

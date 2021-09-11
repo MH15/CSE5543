@@ -13,16 +13,28 @@
 <body>
   <div id="app">
     <div id="canvas"></div>
-    <!-- <div id="floating">
+    <div class="fixed right-5 bottom-96 flex flex-col gap-4">
+      <div id="resolution-count">Count</div>
+      <input id="resolution" type="range" min="1" max="50" value="50" class="slider flex-1" width="8px" height="200px"
+        orient="vertical">
+      <input type="checkbox" id="show-guides" />
+    </div>
+    <div class="fixed bottom-4 left-4 flex gap-3">
+      <input placeholder="filename.txt"
+        class="flex-1 appearance-none border border-transparent w-full py-2 px-4 bg-white text-gray-700 placeholder-gray-400 shadow-md rounded-lg text-base focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+      <button class="bg-blue-500 px-3 py-2 rounded-lg font-semibold shadow-sm text-white text-base">Save</button>
+    </div>
+    <div id="floating " class="fixed bottom-4 right-4 flex">
+      <button class="bg-blue-500 px-3 py-2 rounded-lg font-semibold shadow-sm text-white text-base">Subdivide</button>
 
-      <label for="customrange1" class="form-label">Example range</label>
+      <!-- <label for="customrange1" class="form-label">Example range</label>
       <input type="range" class="form-range" id="customrange1">
 
 
       <button type="button" class="btn btn-primary">Save to disk</button>
-      <button type="button" class="btn btn-danger">Delete Point</button>
+      <button type="button" class="btn btn-danger">Delete Point</button> -->
 
-    </div> -->
+    </div>
   </div>
 </body>
 

@@ -15,10 +15,7 @@
     "noEmit": true,
     "noUnusedLocals": true,
     "noUnusedParameters": true,
-    "noImplicitReturns": true,
-    "types": [
-      "Twojs-ts"
-    ]
+    "noImplicitReturns": true
   },
   "include": [
     "./src"

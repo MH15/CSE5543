@@ -4,8 +4,9 @@ import './style.css'
 import Two from "two.js";
 
 import { drawTooltip, makePoint, Point } from './drawing';
-import { findClosestPoint, getIndex, makeCurve } from './math';
+import { findClosestPoint, getIndex, makeCurve, randi } from './math';
 import { HANDLE_COLOR, HANDLE_COLOR_FOCUSED } from './config';
+import { bind } from './bind';
 
 // Make an instance of two and place it on the page.
 var elem = document.getElementById('canvas');
@@ -18,9 +19,12 @@ var two = new Two(params).appendTo(elem);
 
 
 
+let r = function () {
+  console.log("call")
+  return randi(25, Math.min(window.innerWidth, window.innerHeight) - 25)
+}
 
-
-let points = [new Two.Anchor(500, 190), new Two.Anchor(30, 19), new Two.Anchor(111, 92)]
+let points = [new Two.Anchor(r(), r()), new Two.Anchor(r(), r()), new Two.Anchor(r(), r())]
 
 let tooltip = new Two.Text("reeee", 100, 100)
 tooltip.visible = false
@@ -39,16 +43,20 @@ let selected: Point | null = null
 let dragging = false
 
 
+const resolution = bind("#resolution", 42)
+
+const showGuides = bind("#show-guides", true)
+
+const resolutionCount = bind("#resolution-count", resolution.proxy)
 
 
-let anchors = makeCurve(points)
+let anchors = makeCurve(points, resolution.val)
+console.log(resolution.val)
 
 let curve = new Two.Path(anchors)
 curve.linewidth = 2
 curve.noFill()
 two.add(curve)
-
-
 
 
 
@@ -93,8 +101,8 @@ elem?.addEventListener("mousemove", (e) => {
 
     }
 
-    anchors = makeCurve(points)
-    curve.vertices = anchors
+    // anchors = makeCurve(points, resolution.val)
+    // curve.vertices = anchors
 
     // path.points = points
     two.update()
@@ -110,10 +118,9 @@ elem?.addEventListener("contextmenu", (e) => {
   let handle = makePoint(two, point)
   path.vertices.push(handle.anchor)
   handles.push(handle)
-  console.log(path.vertices)
 
-  anchors = makeCurve(points)
-  curve.vertices = anchors
+  // anchors = makeCurve(points, resolution.val)
+  // curve.vertices = anchors
   return false
 })
 // Don't forget to tell two to render everything
@@ -121,6 +128,10 @@ elem?.addEventListener("contextmenu", (e) => {
 two.bind('update', function (frameCount: number) {
   // This code is called everytime two.update() is called.
   // Effectively 60 times per second.
+  // console.log(resolution.val)
+  anchors = makeCurve(points, resolution.val)
+  curve.vertices = anchors
+  path.visible = showGuides.val
 }).play();
 
 
