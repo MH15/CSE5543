@@ -4,7 +4,7 @@ import './style.css'
 import Two from "two.js";
 
 import { drawTooltip, makePoint, Point } from './drawing';
-import { findClosestPoint, getIndex, makeCurve, randi } from './math';
+import { findClosestPoint, getIndex, makeCurve, randi, subdivide } from './math';
 import { HANDLE_COLOR, HANDLE_COLOR_FOCUSED } from './config';
 import { bind } from './bind';
 
@@ -43,15 +43,34 @@ let selected: Point | null = null
 let dragging = false
 
 
-const resolution = bind("#resolution", 42)
+// html
+const resolutionEl = document.querySelector<HTMLInputElement>("#resolution")
+const showGuidesEl = document.querySelector<HTMLInputElement>("#show-guides")
+const resolutionCount = document.querySelector("#resolution-count")
+const subdivideEl = document.querySelector("#subdivide")
+const statsEl = document.querySelector("#stats")
 
-const showGuides = bind("#show-guides", true)
-
-const resolutionCount = bind("#resolution-count", resolution.proxy)
 
 
-let anchors = makeCurve(points, resolution.val)
-console.log(resolution.val)
+// settings
+function resolution() {
+  return parseInt(resolutionEl.value)
+}
+
+function showGuides() {
+  return showGuidesEl.checked
+}
+
+
+// buttons
+subdivideEl.addEventListener("click", () => {
+  console.log("subdivide")
+  subdivide(points)
+})
+
+
+
+let anchors = makeCurve(points, resolution())
 
 let curve = new Two.Path(anchors)
 curve.linewidth = 2
@@ -129,9 +148,13 @@ two.bind('update', function (frameCount: number) {
   // This code is called everytime two.update() is called.
   // Effectively 60 times per second.
   // console.log(resolution.val)
-  anchors = makeCurve(points, resolution.val)
+  anchors = makeCurve(points, resolution())
   curve.vertices = anchors
-  path.visible = showGuides.val
+  path.visible = showGuides()
+
+  resolutionCount.innerHTML = `${resolution()}`
+
+  statsEl.innerHTML = `Points: ${points.length}, Degree: ${points.length - 1}, Lines: ${anchors.length}`
 }).play();
 
 

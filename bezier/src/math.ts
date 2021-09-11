@@ -66,3 +66,40 @@ function bezier(pts: any[]) {
         return a[0];
     }
 }
+
+export function subdivide(pts: any[]) {
+    console.log(pts)
+    let t = 1 / 2
+    for (var a = pts; a.length > 1; a = b) {
+        console.log(a)
+        // cycle over control points
+        for (var i = 0, b = [], j; i < a.length - 1; i++) {
+            // cycle over dimensions
+            for (b[i] = [], j = 0; j < a[i].length; j++) {
+                b[i][j] = a[i][j] * (1 - t) + a[i + 1][j] * t;  // interpolation
+
+            }
+        }
+
+    }
+
+    return
+
+
+
+    const c = 1 / 2
+    const n = pts.length
+
+    let q0list = []
+
+    for (let i = 0; i < n; i++) {
+        console.log(i)
+        q0list.push(pts[i])
+    }
+    for (let k = 1; k < n; k++) {
+        for (let i = 0; i < n - k; i++) {
+            console.log(k, i)
+            let temp = (1 - c) * q + c * q
+        }
+    }
+}
