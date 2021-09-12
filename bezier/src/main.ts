@@ -1,12 +1,9 @@
-import './style.css'
-
-
 import Two from "two.js";
-
-import { drawTooltip, makePoint, Point } from './drawing';
-import { findClosestPoint, getIndex, makeCurve, randi, subdivide } from './math';
 import { HANDLE_COLOR, HANDLE_COLOR_FOCUSED } from './config';
-import { bind } from './bind';
+import { drawTooltip, makeHandle, Point } from './drawing';
+import { findClosestPoint, getIndex, makeCurve, r, randi, subdivide } from './math';
+import './style.css';
+
 
 // Make an instance of two and place it on the page.
 var elem = document.getElementById('canvas');
@@ -19,23 +16,18 @@ var two = new Two(params).appendTo(elem);
 
 
 
-let r = function () {
-  console.log("call")
-  return randi(25, Math.min(window.innerWidth, window.innerHeight) - 25)
-}
-
-let points = [new Two.Anchor(r(), r()), new Two.Anchor(r(), r()), new Two.Anchor(r(), r())]
+let points = [new Two.Anchor(r(), r()), new Two.Anchor(r(), r()), new Two.Anchor(r(), r()), new Two.Anchor(r(), r())]
 
 let tooltip = new Two.Text("reeee", 100, 100)
 tooltip.visible = false
 two.add(tooltip)
 
-let path = new Two.Path(points)
-path.noFill()
-two.add(path)
+let guides = new Two.Path(points)
+guides.noFill()
+two.add(guides)
 
 let handles = points.map((point) => {
-  return makePoint(two, point)
+  return makeHandle(two, point)
 })
 
 let selected: Point | null = null
@@ -65,7 +57,20 @@ function showGuides() {
 // buttons
 subdivideEl.addEventListener("click", () => {
   console.log("subdivide")
-  subdivide(points)
+  let result = subdivide(points)
+  console.log(result)
+  handles.forEach((handle) => {
+    two.remove(handle.circle)
+  })
+  points = result.map(point => {
+    return new Two.Anchor(point[0], point[1])
+  })
+  handles = points.map((point) => {
+    return makeHandle(two, point)
+  })
+  guides.vertices = points
+
+  anchors = makeCurve(points, resolution())
 })
 
 
@@ -81,7 +86,6 @@ two.add(curve)
 
 
 elem?.addEventListener("mousedown", (e) => {
-  // if (selected != null) {
   dragging = true
 
   let x = e.clientX
@@ -112,19 +116,12 @@ elem?.addEventListener("mousemove", (e) => {
     let point = new Two.Vector(x, y)
 
     if (selected != null) {
-
       selected.circle.translation = point
       selected.anchor.x = point.x
       selected.anchor.y = point.y
       drawTooltip(tooltip, selected.circle.translation, getIndex(handles, selected))
 
     }
-
-    // anchors = makeCurve(points, resolution.val)
-    // curve.vertices = anchors
-
-    // path.points = points
-    two.update()
   }
 })
 
@@ -134,23 +131,21 @@ elem?.addEventListener("contextmenu", (e) => {
   let y = e.clientY
   let point = new Two.Vector(x, y)
   points.push(point)
-  let handle = makePoint(two, point)
-  path.vertices.push(handle.anchor)
+  let handle = makeHandle(two, point)
+  guides.vertices.push(handle.anchor)
   handles.push(handle)
 
-  // anchors = makeCurve(points, resolution.val)
-  // curve.vertices = anchors
   return false
 })
-// Don't forget to tell two to render everything
-// to the screen
+
+
 two.bind('update', function (frameCount: number) {
   // This code is called everytime two.update() is called.
   // Effectively 60 times per second.
   // console.log(resolution.val)
   anchors = makeCurve(points, resolution())
   curve.vertices = anchors
-  path.visible = showGuides()
+  guides.visible = showGuides()
 
   resolutionCount.innerHTML = `${resolution()}`
 

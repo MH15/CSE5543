@@ -2,7 +2,7 @@
 import Two from 'two.js';
 import { HANDLE_COLOR } from './config';
 
-export function makePoint(two: any, anchor: any): Point {
+export function makeHandle(two: any, anchor: any): Point {
     let circle = two.makeCircle(anchor.x, anchor.y, 5);
     circle.fill = HANDLE_COLOR
     // circle.stroke = 'orangered'
@@ -18,6 +18,9 @@ export type Point = {
     circle: any,
     anchor: any
 }
+
+
+export type Vector2 = [number, number];
 
 
 export function drawTooltip(tooltip: any, translation: any, index: number) {

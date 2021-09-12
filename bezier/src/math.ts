@@ -1,4 +1,4 @@
-import { Point } from "./drawing"
+import { Point, Vector2 } from "./drawing"
 
 import Two from "two.js";
 
@@ -31,17 +31,16 @@ export function randi(min: number, max: number) {
 
 
 export function makeCurve(anchors: any[], resolution: number) {
-    // console.log('updateing the curve')
-
     let pointArrays = anchors.map(point => {
         return [point.x, point.y]
     })
     var b = bezier(pointArrays);
 
+    let actualResolution = resolution * anchors.length
 
     let curve = []
-    for (var t = 0; t <= resolution; t++) {
-        let point = b(t / resolution)
+    for (var t = 0; t <= actualResolution; t++) {
+        let point = b(t / actualResolution)
         let anchor = new Two.Anchor(point[0], point[1])
         curve.push(anchor)
     }
@@ -49,57 +48,118 @@ export function makeCurve(anchors: any[], resolution: number) {
 }
 
 
+
+
+function lerpVector(t: number, a: Vector2, b: Vector2) {
+    let result = [0, 0]
+    // for each dimension x and y
+    for (let i = 0; i < a.length; i++) {
+        result[i] = a[i] * (1 - t) + b[i] * t
+    }
+    return result
+}
+
+
 function bezier(pts: any[]) {
-    return function (t: number) {
+    return function (u: number): Vector2 {
         // do..while loop in disguise
-        for (var a = pts; a.length > 1; a = b) {
-            // cycle over control points
-            for (var i = 0, b = [], j; i < a.length - 1; i++) {
-                // cycle over dimensions
-                for (b[i] = [], j = 0; j < a[i].length; j++) {
-                    b[i][j] = a[i][j] * (1 - t) + a[i + 1][j] * t;  // interpolation
 
-                }
-            }
+        const n = pts.length
 
+        // for i = 0 to n do q_i_0 = q_i
+        let q = new Array(n)
+        for (let i = 0; i < n; i++) {
+            q[i] = new Array(n)
+            // for (let j = 0; j < n; j++) {
+            //     q[i][j] = [NaN, NaN]
+            // }
+            q[0][i] = pts[i]
         }
-        return a[0];
+
+        for (let k = 1; k < n; k++) {
+            for (let i = 0; i < n - k; i++) {
+                let a = q[k - 1][i]
+                let b = q[k - 1][i + 1]
+                q[k][i] = lerpVector(u, a, b)
+            }
+        }
+        // if (u == 0) console.log(q)
+
+        return q[n - 1][0]
+
+        // let a = pts
+        // do {
+        //     let b: any[] = []
+        //     if (u == 0) console.log(a, a.length, b)
+        //     // cycle over control points
+        //     for (var i = 0; i < a.length - 1; i++) {
+        //         // cycle over dimensions
+        //         b[i] = lerpVector(u, a[i], a[i + 1])
+        //     }
+        //     a = b
+        // } while (a.length > 1)
+        // // for (var a = pts; a.length > 1; a = b) {
+        // //     if (t == 0) console.log(a, a.length, b)
+        // //     // cycle over control points
+        // //     for (var i = 0, b = []; i < a.length - 1; i++) {
+        // //         // cycle over dimensions
+        // //         b[i] = []
+        // //         for (let j = 0; j < a[i].length; j++) {
+        // //             b[i][j] = a[i][j] * (1 - t) + a[i + 1][j] * t;  // interpolation
+
+        // //         }
+        // //     }
+
+        // // }
+        // return a[0];
     }
 }
 
-export function subdivide(pts: any[]) {
-    console.log(pts)
-    let t = 1 / 2
-    for (var a = pts; a.length > 1; a = b) {
-        console.log(a)
-        // cycle over control points
-        for (var i = 0, b = [], j; i < a.length - 1; i++) {
-            // cycle over dimensions
-            for (b[i] = [], j = 0; j < a[i].length; j++) {
-                b[i][j] = a[i][j] * (1 - t) + a[i + 1][j] * t;  // interpolation
+export function subdivide(anchors: any[]) {
+    let pts = anchors.map(point => {
+        return [point.x, point.y]
+    })
 
-            }
-        }
-
-    }
-
-    return
-
-
-
-    const c = 1 / 2
     const n = pts.length
+    const c = 1 / 2
 
-    let q0list = []
-
+    // for i = 0 to n do q_i_0 = q_i
+    let q = new Array(n)
     for (let i = 0; i < n; i++) {
-        console.log(i)
-        q0list.push(pts[i])
+        q[i] = new Array(n)
+        q[0][i] = pts[i]
     }
+
     for (let k = 1; k < n; k++) {
         for (let i = 0; i < n - k; i++) {
-            console.log(k, i)
-            let temp = (1 - c) * q + c * q
+            let a = q[k - 1][i]
+            let b = q[k - 1][i + 1]
+            q[k][i] = lerpVector(c, a, b)
         }
     }
+
+    console.log(q)
+    console.log(JSON.stringify(q, null, 2))
+
+    let result = []
+
+    // first half
+    for (let i = 0; i < n; i++) {
+        console.log(q[i][0])
+        result[i] = q[i][0]
+    }
+
+    // second half
+    for (let i = 1; i <= n; i++) {
+        console.log(q[n - i][i - 1])
+        result[n + i - 1] = q[n - i][i - 1]
+    }
+
+    return result
+
+}
+
+
+export function r() {
+    return randi(25, Math.min(window.innerWidth, window.innerHeight) - 25)
 }
