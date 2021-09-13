@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8" />
+  <link rel="icon" type="image/svg+xml" href="/assets/favicon.17e50649.svg" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Vite App</title>
+  
+  <script type="module" crossorigin src="/assets/index.67159d43.js"></script>
+    <link rel="modulepreload" href="/assets/vendor.22bf0665.js">
+    <link rel="stylesheet" href="/assets/index.61b4b838.css">
+  </head>
+
+<body>
+  <div id="app">
+
+    <div id="canvas"></div>
+    <div class="fixed right-5 bottom-96 flex flex-col gap-4">
+      <div id="resolution-count">Count</div>
+      <input id="resolution" type="range" min="1" max="20" value="10" class="slider flex-1" width="8px" height="200px"
+        orient="vertical">
+      <input type="checkbox" id="show-guides" />
+    </div>
+    <div class="fixed bottom-4 left-4 right-4 flex justify-between gap-3">
+      <div class="flex gap-3">
+        <input id="filename" placeholder="filename.txt"
+          class="flex-1 appearance-none border-2 border-blue-500 w-full py-2 px-4 bg-white text-gray-700 placeholder-gray-400 shadow-md rounded-lg text-base focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+        <button id="save"
+          class="bg-blue-500 px-3 py-2 rounded-lg font-semibold shadow-md text-white text-base">Save</button>
+      </div>
+      <div class="pt-3" id="stats"></div>
+      <button id="subdivide"
+        class="bg-blue-500 px-3 py-2 rounded-lg font-semibold shadow-md text-white text-base">Subdivide</button>
+
+      <!-- <label for="customrange1" class="form-label">Example range</label>
+      <input type="range" class="form-range" id="customrange1">
+
+
+      <button type="button" class="btn btn-primary">Save to disk</button>
+      <button type="button" class="btn btn-danger">Delete Point</button> -->
+
+    </div>
+  </div>
+
+  <div id="start-menu">
+    <div class="fixed top-0 w-full h-full flex justify-around flex-col z-50">
+      <div class="bg-white rounded-lg shadow-lg p-10 m-auto">
+        <p class="pb-4">Select a file or input a number of points</p>
+        <div class="flex gap-3 flex-col">
+          <input id="start-number" type="number" min="2" max="20" placeholder="# of points"
+            class="flex-1 appearance-none border-2 border-blue-500 w-full py-2 px-4 bg-white text-gray-700 placeholder-gray-400 shadow-md rounded-lg text-base focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+          <input type="file" class="" id="start-file" />
+          <button class="bg-blue-500 px-3 py-2 rounded-lg font-semibold shadow-md text-white text-base w-full"
+            id="start">Go</button>
+        </div>
+      </div>
+    </div>
+    <div class="fixed top-0 h-full w-full bg-gray-600 bg-opacity-75 z-40"></div>
+  </div>
+</body>
+
+</html>

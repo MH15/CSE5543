@@ -14,7 +14,6 @@
     "vite": "^2.5.2"
   },
   "dependencies": {
-    "fastify": "^3.21.0",
     "two.js": "^0.7.8"
   }
 }
