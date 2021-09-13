@@ -109,6 +109,11 @@ saveEl.addEventListener("click", (e) => {
   }
 
   download(filename, content)
+
+  saveEl.innerHTML = "Saved!"
+  setTimeout(() => {
+    saveEl.innerHTML = "Save"
+  }, 2000)
 })
 
 
