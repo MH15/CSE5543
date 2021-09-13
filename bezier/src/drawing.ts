@@ -26,5 +26,9 @@ export type Vector2 = [number, number];
 export function drawTooltip(tooltip: any, translation: any, index: number) {
     tooltip.visible = true
     tooltip.translation = new Two.Vector(translation.x, translation.y - 15)
-    tooltip.value = `Point ${index}\n(${translation.x}, ${translation.y})`
+    tooltip.value = `Point ${index}\n(${round(translation.x / window.innerWidth)}, ${round(translation.y / window.innerHeight)})`
+}
+
+export const round = (num: number) => {
+    return Math.round(num * 100) / 100
 }

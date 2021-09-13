@@ -10,6 +10,7 @@
     "moduleResolution": "Node",
     "strict": true,
     "strictNullChecks": false,
+    "noImplicitAny": false,
     "sourceMap": true,
     "resolveJsonModule": true,
     "esModuleInterop": true,
