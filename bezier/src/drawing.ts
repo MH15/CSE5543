@@ -30,5 +30,5 @@ export function drawTooltip(tooltip: any, translation: any, index: number) {
 }
 
 export const round = (num: number) => {
-    return Math.round(num * 100) / 100
+    return Math.round(num * 10000) / 10000
 }

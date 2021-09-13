@@ -124,14 +124,12 @@ function goDisplay(content: string) {
   let { points, degree } = parse(content)
   state.points = []
 
-  const curveSize = degree + 1
-
   let resultingCurves = []
 
   let i = 0
-  while (i < points.length - 3) {
-    resultingCurves.push(points.slice(i, i + 4))
-    i += 3
+  while (i < points.length - degree) {
+    resultingCurves.push(points.slice(i, i + degree + 1))
+    i += degree
   }
 
 
@@ -202,7 +200,7 @@ two.bind('update', function (frameCount: number) {
 
   resolutionCount.innerHTML = `${resolution()}`
 
-  statsEl.innerHTML = `Points: ${points.length}, Degree: ${points.length - 1}, Lines: ${state.pointsOnCurves?.length}`
+  statsEl.innerHTML = `Points: ${state.points.flat().length}, Curves: ${state.points.length} Degree: ${state.points[0].length - 1}, Lines: ${state.pointsOnCurves?.length}`
 }).play();
 
 

@@ -113,6 +113,7 @@ export function addpointHandler(e: MouseEvent, state: State, Two: any, two: any)
         state.guides.vertices.push(handle.anchor)
         state.handles.push(handle)
     }
+    console.log(state)
     return false
 }
 
