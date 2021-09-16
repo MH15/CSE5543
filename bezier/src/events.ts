@@ -1,6 +1,5 @@
 import { HANDLE_COLOR, HANDLE_COLOR_FOCUSED } from "./config"
 import { drawTooltip, makeHandle, Point } from "./drawing"
-import { readFile, parse } from "./files"
 import { findClosestPoint, getIndex, makeCurve, subdivide } from "./math"
 
 export type State = {
@@ -117,11 +116,3 @@ export function addpointHandler(e: MouseEvent, state: State, Two: any, two: any)
     return false
 }
 
-
-export async function fileHandler(e: Event, state: State) {
-    let file = (e.target as HTMLInputElement).files[0]
-    let content = await readFile(file)
-    // let [pts, ndim, nump, ndegree, ncurves] = parse(content)
-    // console.log(pts)
-    // console.log(ncurves)
-}

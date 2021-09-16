@@ -5,7 +5,6 @@ import { HANDLE_COLOR } from './config';
 export function makeHandle(two: any, anchor: any): Point {
     let circle = two.makeCircle(anchor.x, anchor.y, 5);
     circle.fill = HANDLE_COLOR
-    // circle.stroke = 'orangered'
     circle.linewidth = 0
 
     return {

@@ -2,6 +2,7 @@ import { Point, Vector2 } from "./drawing"
 
 import Two from "two.js";
 
+
 export function findClosestPoint(points: any[], position: any, range: number): null | any {
     let closest = null
     let distance = range
@@ -26,7 +27,7 @@ export function getIndex(handles: Point[], point: Point) {
 export function randi(min: number, max: number) {
     min = Math.ceil(min);
     max = Math.floor(max);
-    return Math.floor(Math.random() * (max - min) + min); //The maximum is exclusive and the minimum is inclusive
+    return Math.floor(Math.random() * (max - min) + min);
 }
 
 
@@ -54,8 +55,6 @@ export function makeCurve(bezierCurves: any[][], resolution: number): any[] {
 }
 
 
-
-
 function lerpVector(t: number, a: Vector2, b: Vector2) {
     let result = [0, 0]
     // for each dimension x and y
@@ -68,17 +67,12 @@ function lerpVector(t: number, a: Vector2, b: Vector2) {
 
 function bezier(pts: any[]) {
     return function (u: number): Vector2 {
-        // do..while loop in disguise
-
         const n = pts.length
 
         // for i = 0 to n do q_i_0 = q_i
         let q = new Array(n)
         for (let i = 0; i < n; i++) {
             q[i] = new Array(n)
-            // for (let j = 0; j < n; j++) {
-            //     q[i][j] = [NaN, NaN]
-            // }
             q[0][i] = pts[i]
         }
 
@@ -89,35 +83,9 @@ function bezier(pts: any[]) {
                 q[k][i] = lerpVector(u, a, b)
             }
         }
-        // if (u == 0) console.log(q)
 
         return q[n - 1][0]
 
-        // let a = pts
-        // do {
-        //     let b: any[] = []
-        //     if (u == 0) console.log(a, a.length, b)
-        //     // cycle over control points
-        //     for (var i = 0; i < a.length - 1; i++) {
-        //         // cycle over dimensions
-        //         b[i] = lerpVector(u, a[i], a[i + 1])
-        //     }
-        //     a = b
-        // } while (a.length > 1)
-        // // for (var a = pts; a.length > 1; a = b) {
-        // //     if (t == 0) console.log(a, a.length, b)
-        // //     // cycle over control points
-        // //     for (var i = 0, b = []; i < a.length - 1; i++) {
-        // //         // cycle over dimensions
-        // //         b[i] = []
-        // //         for (let j = 0; j < a[i].length; j++) {
-        // //             b[i][j] = a[i][j] * (1 - t) + a[i + 1][j] * t;  // interpolation
-
-        // //         }
-        // //     }
-
-        // // }
-        // return a[0];
     }
 }
 
@@ -147,7 +115,6 @@ export function subdivide(bezierCurves: any[][]): any[][] {
             }
         }
 
-
         let result = []
 
         // first half
@@ -162,13 +129,8 @@ export function subdivide(bezierCurves: any[][]): any[][] {
             result[i] = q[n - i - 1][i]
         }
         resultingCurves.push(result)
-
     }
-
     return resultingCurves
-
-
-
 }
 
 

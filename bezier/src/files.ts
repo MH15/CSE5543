@@ -1,4 +1,4 @@
-
+// File handling functions and a primitive parser for BEZIER files
 
 export function parse(content: string) {
     let lines = content.split(/\r\n|\r|\n/)

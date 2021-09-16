@@ -1,7 +1,7 @@
 import Two from "two.js";
 import { makeHandle, round } from './drawing';
-import { fileHandler, mousedownHandler, mousemoveHandler, mouseupHandler, addpointHandler, State, subdivideHandler } from "./events";
-import { readFile, parse, download } from "./files";
+import { addpointHandler, mousedownHandler, mousemoveHandler, mouseupHandler, State, subdivideHandler } from "./events";
+import { download, parse, readFile } from "./files";
 import { makeCurve } from './math';
 import './style.css';
 
@@ -33,18 +33,10 @@ const resolution = () => parseInt(resolutionEl.value)
 const showGuides = () => showGuidesEl.checked
 
 
-// list of lists of location values for each curve, each list describes one curve
-// let points = [
-//   [new Two.Anchor(r(), r()), new Two.Anchor(r(), r()), new Two.Anchor(r(), r()), new Two.Anchor(r(), r())]
-// ]
-// let points = [
-//   [new Two.Anchor(283, 486), new Two.Anchor(315, 143), new Two.Anchor(633, 109), new Two.Anchor(658, 451)]
-// ]
-
 let points: any[] = [[]]
 
 
-
+// Global state
 let state: State = {
   dragging: false,
   selected: null,
